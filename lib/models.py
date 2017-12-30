@@ -142,11 +142,17 @@ class GovernanceObject(BaseModel):
         try:
             newdikt = subdikt.copy()
             newdikt['object_hash'] = object_hash
-            if subclass(**newdikt).is_valid() is False:
+
+            sub, params = subclass(**newdikt), []
+            if isinstance(sub, Watchdog):
+                params = [dashd]
+
+            if sub.is_valid(*params) is False:
                 govobj.vote_delete(dashd)
                 return (govobj, None)
 
             subobj, created = subclass.get_or_create(object_hash=object_hash, defaults=subdikt)
+
         except Exception as e:
             # in this case, vote as delete, and log the vote in the DB
             printdbg("Got invalid object from dashd! %s" % e)

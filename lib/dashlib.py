@@ -11,6 +11,8 @@ import binascii
 from misc import printdbg, epoch2str
 import time
 
+import config
+
 
 def is_valid_dash_address(address, network='mainnet'):
     raise RuntimeWarning('This method should not be used with sibcoin')
@@ -282,8 +284,9 @@ def did_we_vote(output):
     voted = False
     err_msg = ''
 
+    _, conf_filename = os.path.split(config.dash_conf)
     try:
-        detail = output.get('detail').get('dash.conf')
+        detail = output.get('detail').get(conf_filename)
         result = detail.get('result')
         if 'errorMessage' in detail:
             err_msg = detail.get('errorMessage')
