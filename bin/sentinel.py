@@ -17,6 +17,7 @@ import signal
 import atexit
 import random
 from scheduler import Scheduler
+import argparse
 
 
 # sync dashd gobject list with our local relational DB backend
@@ -58,6 +59,12 @@ def watchdog_check(dashd):
             wd.vote(dashd, VoteSignals.delete, VoteOutcomes.yes)
 
     printdbg("leaving watchdog_check")
+
+
+def prune_expired_proposals(dashd):
+    # vote delete for old proposals
+    for proposal in Proposal.expired():
+        proposal.vote(dashd, VoteSignals.delete, VoteOutcomes.yes)
 
 
 # ping dashd
@@ -151,9 +158,8 @@ def is_dashd_port_open(dashd):
 
 
 def main():
-
-    #dashd = DashDaemon.from_dash_conf(config.dash_conf)
     dashd = SibcoinDaemon.from_sibcoin_conf(config.sibcoin_conf)
+    options = process_args()
 
     # check dashd connectivity
     if not is_dashd_port_open(dashd):
@@ -170,8 +176,14 @@ def main():
         print("Invalid Masternode Status, cannot continue.")
         return
 
+    # register a handler if SENTINEL_DEBUG is set
+    if os.environ.get('SENTINEL_DEBUG', None):
+        import logging
+        logger = logging.getLogger('peewee')
+        logger.setLevel(logging.DEBUG)
+        logger.addHandler(logging.StreamHandler())
 
-    if init.options.bypass:
+    if options.bypass:
         # bypassing scheduler, remove the scheduled event
         printdbg("--bypass-schedule option used, clearing schedule")
         Scheduler.clear_schedule()
@@ -180,7 +192,7 @@ def main():
         printdbg("Not yet time for an object sync/vote, moving on.")
         return
 
-    if not init.options.bypass:
+    if not options.bypass:
         # delay to account for cron minute sync
         Scheduler.delay()
 
@@ -203,6 +215,9 @@ def main():
     # auto vote network objects as valid/invalid
     # check_object_validity(dashd)
 
+    # vote to delete expired proposals
+    prune_expired_proposals(dashd)
+
     # create a Superblock if necessary
     attempt_superblock_creation(dashd)
 
@@ -218,6 +233,17 @@ def signal_handler(signum, frame):
 
 def cleanup():
     Transient.delete(mutex_key)
+
+
+def process_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-b', '--bypass-scheduler',
+                        action='store_true',
+                        help='Bypass scheduler and sync/vote immediately',
+                        dest='bypass')
+    args = parser.parse_args()
+
+    return args
 
 
 if __name__ == '__main__':

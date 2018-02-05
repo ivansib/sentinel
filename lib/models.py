@@ -316,9 +316,12 @@ class Proposal(GovernanceClass, BaseModel):
         now = misc.now()
         printdbg("\tnow = %s" % now)
 
+        # TODO: get window between superblocks, divide by 2, convert to a # of seconds
+        #       add this value to the fudge_window defined elsewhere in Sentinel
+        #       the sum of these 2 values (in seconds) should be added to now condition below:
         # end date < current date
-        if (self.end_epoch <= now):
-            printdbg("\tProposal end_epoch [%s] <= now [%s] , returning True" % (self.end_epoch, now))
+        if (self.end_epoch < now):
+            printdbg("\tProposal end_epoch [%s] < now [%s] , returning True" % (self.end_epoch, now))
             return True
 
         printdbg("Leaving Proposal#is_expired, Expired = False")
@@ -353,6 +356,16 @@ class Proposal(GovernanceClass, BaseModel):
                 ranked.append(proposal)
 
         return ranked
+
+    @classmethod
+    def expired(self):
+        expired = []
+
+        for proposal in self.select():
+            if proposal.is_expired():
+                expired.append(proposal)
+
+        return expired
 
     @property
     def rank(self):
