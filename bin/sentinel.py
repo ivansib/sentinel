@@ -159,7 +159,6 @@ def is_dashd_port_open(dashd):
 
 def main():
     dashd = SibcoinDaemon.from_sibcoin_conf(config.sibcoin_conf)
-    options = process_args()
 
     # check dashd connectivity
     if not is_dashd_port_open(dashd):
@@ -183,7 +182,7 @@ def main():
         logger.setLevel(logging.DEBUG)
         logger.addHandler(logging.StreamHandler())
 
-    if options.bypass:
+    if init.options.bypass:
         # bypassing scheduler, remove the scheduled event
         printdbg("--bypass-schedule option used, clearing schedule")
         Scheduler.clear_schedule()
@@ -192,7 +191,7 @@ def main():
         printdbg("Not yet time for an object sync/vote, moving on.")
         return
 
-    if not options.bypass:
+    if not init.options.bypass:
         # delay to account for cron minute sync
         Scheduler.delay()
 
@@ -233,17 +232,6 @@ def signal_handler(signum, frame):
 
 def cleanup():
     Transient.delete(mutex_key)
-
-
-def process_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-b', '--bypass-scheduler',
-                        action='store_true',
-                        help='Bypass scheduler and sync/vote immediately',
-                        dest='bypass')
-    args = parser.parse_args()
-
-    return args
 
 
 if __name__ == '__main__':
