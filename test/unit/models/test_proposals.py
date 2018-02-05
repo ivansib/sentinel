@@ -65,7 +65,7 @@ def proposal():
     # NOTE: no governance_object_id is set
     pobj = Proposal(
         start_epoch=1483250400,  # 2017-01-01
-        end_epoch=1491022800,  # 2017-04-01
+        end_epoch=2122520400,
         name="wine-n-cheeze-party",
         url="https://sibcoin.net/wine-n-cheeze-party",
         payment_address="sYNpoRsQDBN8qYFxeifN2XHazF58e14BbQ",
