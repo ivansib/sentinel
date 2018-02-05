@@ -3,13 +3,16 @@
 """
 import sys
 import os
+from sib_config import SibcoinConfig
 
 default_sentinel_config = os.path.normpath(
     os.path.join(os.path.dirname(__file__), '../sentinel.conf')
 )
 
 sentinel_config_file = os.environ.get('SENTINEL_CONFIG', default_sentinel_config)
-debug_enabled = os.environ.get('SENTINEL_DEBUG', False)
+sentinel_cfg = SibcoinConfig.tokenize(sentinel_config_file)
+sentinel_version = 2
+min_dashd_proto_version_with_sentinel_ping = 70207
 
 
 def get_dash_conf():
