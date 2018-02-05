@@ -175,12 +175,6 @@ def main():
         print("Invalid Masternode Status, cannot continue.")
         return
 
-    # register a handler if SENTINEL_DEBUG is set
-    if os.environ.get('SENTINEL_DEBUG', None):
-        import logging
-        logger = logging.getLogger('peewee')
-        logger.setLevel(logging.DEBUG)
-        logger.addHandler(logging.StreamHandler())
 
     if init.options.bypass:
         # bypassing scheduler, remove the scheduled event
