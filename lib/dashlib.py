@@ -284,7 +284,7 @@ def did_we_vote(output):
     voted = False
     err_msg = ''
 
-    _, conf_filename = os.path.split(config.dash_conf)
+    _, conf_filename = os.path.split(config.sibcoin_conf)
     try:
         detail = output.get('detail').get(conf_filename)
         result = detail.get('result')
