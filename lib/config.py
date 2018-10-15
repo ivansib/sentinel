@@ -13,27 +13,33 @@ debug_enabled = os.environ.get('SENTINEL_DEBUG', False)
 
 sentinel_config_file = os.environ.get('SENTINEL_CONFIG', default_sentinel_config)
 sentinel_cfg = SibcoinConfig.tokenize(sentinel_config_file)
-sentinel_version = "1.1.0"
+sentinel_version = "1.2.0"
 min_dashd_proto_version_with_sentinel_ping = 70208
 
 
 def get_dash_conf():
-    home = os.environ.get('HOME')
+    if sys.platform == 'win32':
+        dash_conf = os.path.join(os.getenv('APPDATA'), "DashCore/dash.conf")
+    else:
+        home = os.environ.get('HOME')
 
-    dash_conf = os.path.join(home, ".dashcore/dash.conf")
-    if sys.platform == 'darwin':
-        dash_conf = os.path.join(home, "Library/Application Support/DashCore/dash.conf")
+        dash_conf = os.path.join(home, ".dashcore/dash.conf")
+        if sys.platform == 'darwin':
+            dash_conf = os.path.join(home, "Library/Application Support/DashCore/dash.conf")
 
     dash_conf = sentinel_cfg.get('dash_conf', dash_conf)
 
     return dash_conf
 
 def get_sibcoin_conf():
-    home = os.environ.get('HOME')
+    if sys.platform == 'win32':
+        sibcoin_conf = os.path.join(os.getenv('APPDATA'), "Sibcoin/sibcoin.conf")
+    else:
+        home = os.environ.get('HOME')
 
-    sibcoin_conf = os.path.join(home, ".sibcoin/sibcoin.conf")
-    if sys.platform == 'darwin':
-        sibcoin_conf = os.path.join(home, "Library/Application Support/Sibcoin/sibcoin.conf")
+        sibcoin_conf = os.path.join(home, ".sibcoin/sibcoin.conf")
+        if sys.platform == 'darwin':
+            sibcoin_conf = os.path.join(home, "Library/Application Support/Sibcoin/sibcoin.conf")
 
     sibcoin_conf = sentinel_cfg.get('sibcoin_conf', sibcoin_conf)
 
@@ -42,6 +48,10 @@ def get_sibcoin_conf():
 
 def get_network():
     return sentinel_cfg.get('network', 'mainnet')
+
+
+def get_rpchost():
+    return sentinel_cfg.get('rpchost', '127.0.0.1')
 
 
 def sqlite_test_db_name(sqlite_file_path):
@@ -96,4 +106,5 @@ def get_db_conn():
 #dash_conf = get_dash_conf()
 #sibcoin_conf = get_sibcoin_conf()
 #network = get_network()
+#rpc_host = get_rpchost()
 #db = get_db_conn()
