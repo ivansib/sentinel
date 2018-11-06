@@ -22,6 +22,8 @@ class SibcoinDaemon(DashDaemon):
         config_text = SibcoinConfig.slurp_config_file(sibcoin_dot_conf)
         creds = SibcoinConfig.get_rpc_creds(config_text, config.network)
 
+        creds[u'host'] = config.rpc_host
+
         return self(**creds)
 
     @classmethod

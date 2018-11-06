@@ -121,6 +121,7 @@ def main():
 
     config.sibcoin_conf = config.get_sibcoin_conf()
     config.network = config.get_network()
+    config.rpc_host = config.get_rpchost()
     config.db = config.get_db_conn()
 
     install_instructions = "\tpip install -r requirements.txt"
