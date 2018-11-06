@@ -150,12 +150,7 @@ class GovernanceObject(BaseModel):
         try:
             newdikt = subdikt.copy()
             newdikt['object_hash'] = object_hash
-
-            sub, params = subclass(**newdikt), []
-            if isinstance(sub, Watchdog):
-                params = [dashd]
-
-            if sub.is_valid(*params) is False:
+            if subclass(**newdikt).is_valid() is False:
                 govobj.vote_delete(dashd)
                 return (govobj, None)
 
