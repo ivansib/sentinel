@@ -67,19 +67,11 @@ To view debug output, set the `SENTINEL_DEBUG` environment variable to anything 
 
 ## Contributing
 
-<<<<<<< HEAD
-Please follow the [Sibcoin Core guidelines for contributing](https://github.com/ivansib/sibcoin/blob/v0.16.1.x/CONTRIBUTING.md).
+Please follow the [Sibcoin Core guidelines for contributing](https://github.com/ivansib/sibcoin/blob/master/CONTRIBUTING.md).
 
 Specifically:
 
-* [Contributor Workflow](https://github.com/ivansib/sibcoin/blob/v0.16.1.x/CONTRIBUTING.md#contributor-workflow)
-=======
-Please follow the [DashCore guidelines for contributing](https://github.com/dashpay/dash/blob/master/CONTRIBUTING.md).
-
-Specifically:
-
-* [Contributor Workflow](https://github.com/dashpay/dash/blob/master/CONTRIBUTING.md#contributor-workflow)
->>>>>>> dash-sentinel/master
+* [Contributor Workflow](https://github.com/ivansib/sibcoin/blob/master/CONTRIBUTING.md#contributor-workflow)
 
     To contribute a patch, the workflow is as follows:
 
