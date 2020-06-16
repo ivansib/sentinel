@@ -1,19 +1,13 @@
 # Sibcoin Sentinel
 
-<<<<<<< HEAD
-An all-powerful toolset for Sibcoin.
+> An automated governance helper for Sibcoin Masternodes.
 
 [![Build Status](https://travis-ci.org/dashpay/sentinel.svg?branch=master)](https://travis-ci.org/dashpay/sentinel)
 
 Sentinel is an autonomous agent for persisting, processing and automating Sibcoin governance objects and tasks, and for expanded functions in the upcoming Sibcoin V17 release (Evolution).
 
-Sentinel is implemented as a Python application that binds to a local version 16sibcoind instance on each Sibcoin Masternode.
-=======
-[![Build Status](https://travis-ci.org/dashpay/sentinel.svg?branch=master)](https://travis-ci.org/dashpay/sentinel)
+Sentinel is implemented as a Python application that binds to a local sibcoind instance on each Sibcoin Masternode.
 
-> An automated governance helper for Dash Masternodes.
-
-Sentinel is an autonomous agent for persisting, processing and automating Dash governance objects and tasks. It is a Python application which runs alongside the DashCore instance on each Dash Masternode.
 
 ## Table of Contents
 - [Install](#install)
@@ -24,7 +18,6 @@ Sentinel is an autonomous agent for persisting, processing and automating Dash g
 - [Maintainer](#maintainer)
 - [Contributing](#contributing)
 - [License](#license)
->>>>>>> 255f7ce
 
 ## Install
 
